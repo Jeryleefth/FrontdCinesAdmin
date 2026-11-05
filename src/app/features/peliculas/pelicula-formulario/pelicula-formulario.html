@@ -1,0 +1,86 @@
+<form class="formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+  <div class="formulario__campo">
+    <label for="titulo">Título</label>
+    <input id="titulo" formControlName="titulo" />
+    @if (invalido('titulo')) {
+      <span class="formulario__error">El título es obligatorio.</span>
+    }
+  </div>
+
+  <div class="formulario__campo">
+    <label for="sinopsis">Sinopsis</label>
+    <textarea id="sinopsis" rows="3" formControlName="sinopsis"></textarea>
+    @if (invalido('sinopsis')) {
+      <span class="formulario__error">La sinopsis es obligatoria.</span>
+    }
+  </div>
+
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="genero">Género</label>
+      <input id="genero" formControlName="genero" />
+      @if (invalido('genero')) {
+        <span class="formulario__error">El género es obligatorio.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="duracion">Duración (min)</label>
+      <input id="duracion" type="number" min="1" formControlName="duracion" />
+      @if (invalido('duracion')) {
+        <span class="formulario__error">Escribe una duración mayor que cero.</span>
+      }
+    </div>
+  </div>
+
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="clasificacion">Clasificación</label>
+      <select id="clasificacion" formControlName="clasificacion">
+        <option value="" disabled>Selecciona una clasificación</option>
+        @for (opcion of clasificaciones; track opcion.valor) {
+          <option [value]="opcion.valor">{{ opcion.texto }}</option>
+        }
+      </select>
+      @if (invalido('clasificacion')) {
+        <span class="formulario__error">Selecciona una clasificación.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="idioma">Idioma</label>
+      <input id="idioma" formControlName="idioma" />
+      @if (invalido('idioma')) {
+        <span class="formulario__error">El idioma es obligatorio.</span>
+      }
+    </div>
+  </div>
+
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="fechaEstreno">Fecha de estreno</label>
+      <input id="fechaEstreno" type="date" formControlName="fechaEstreno" />
+      @if (invalido('fechaEstreno')) {
+        <span class="formulario__error">La fecha de estreno es obligatoria.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="rutaImagen">URL del póster</label>
+      <input id="rutaImagen" type="url" placeholder="https://…" formControlName="rutaImagen" />
+      @if (invalido('rutaImagen')) {
+        <span class="formulario__error">Escribe una URL válida que empiece por http:// o https://</span>
+      }
+    </div>
+  </div>
+
+  @if (error(); as mensaje) {
+    <p class="mensaje-estado mensaje-estado--error">{{ mensaje }}</p>
+  }
+
+  <div class="formulario__acciones">
+    <button type="button" class="boton boton--secundario" [disabled]="guardando()" (click)="cancelar.emit()">
+      Cancelar
+    </button>
+    <button type="submit" class="boton boton--principal" [disabled]="guardando()">
+      {{ guardando() ? 'Guardando…' : 'Guardar' }}
+    </button>
+  </div>
+</form>

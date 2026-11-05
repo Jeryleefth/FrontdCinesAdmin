@@ -1,0 +1,42 @@
+@if (peliculas().length === 0) {
+  <p class="mensaje-estado">Todavía no hay películas cargadas.</p>
+} @else {
+  <div class="tabla-envoltorio">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Género</th>
+          <th>Duración</th>
+          <th>Clasificación</th>
+          <th>Estreno</th>
+          <th aria-label="Acciones"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- `track` le dice a Angular cómo identificar cada fila (como `key` en React). -->
+        @for (pelicula of peliculas(); track pelicula.id) {
+          <tr>
+            <td>{{ pelicula.titulo }}</td>
+            <td>{{ pelicula.genero }}</td>
+            <td>{{ pelicula.duracion }} min</td>
+            <td>{{ pelicula.clasificacion || '—' }}</td>
+            <td>{{ pelicula.fechaEstreno | fechaCorta }}</td>
+            <td class="tabla__acciones">
+              @if (confirmandoId() === pelicula.id) {
+                <span class="tabla__pregunta">¿Eliminar?</span>
+                <button type="button" class="boton boton--peligro" (click)="confirmarEliminar(pelicula.id)">Sí</button>
+                <button type="button" class="boton boton--secundario" (click)="confirmandoId.set(null)">No</button>
+              } @else {
+                <button type="button" class="boton boton--secundario" (click)="editar.emit(pelicula)">Editar</button>
+                <button type="button" class="boton boton--peligro" (click)="confirmandoId.set(pelicula.id)">
+                  Eliminar
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
