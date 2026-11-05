@@ -23,6 +23,10 @@ export const PANEL_RUTAS: Routes = [
         loadComponent: () =>
           import('../funciones/funciones-pagina/funciones-pagina').then((m) => m.FuncionesPagina),
       },
+      {
+        path: 'perfil',
+        loadComponent: () => import('../perfil/perfil-pagina/perfil-pagina').then((m) => m.PerfilPagina),
+      },
     ],
   },
 ];

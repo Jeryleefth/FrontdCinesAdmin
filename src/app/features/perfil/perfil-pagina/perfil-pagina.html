@@ -1,0 +1,81 @@
+<section>
+  <app-encabezado-seccion titulo="Mi perfil" />
+
+  <div class="tarjeta">
+    <form class="tarjeta__formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+      <label class="campo">
+        <span class="campo__etiqueta"><app-icono nombre="usuario" /> Nombre</span>
+        <input class="campo__entrada" formControlName="nombre" />
+      </label>
+      @if (invalido('nombre')) {
+        <span class="formulario__error">El nombre es obligatorio.</span>
+      }
+
+      <!-- El correo es la llave de la cuenta: se muestra, pero no se puede editar. -->
+      <label class="campo">
+        <span class="campo__etiqueta"><app-icono nombre="correo" /> Correo</span>
+        <input class="campo__entrada campo__entrada--apagada" [value]="auth.sesion()?.correo" disabled />
+      </label>
+      <p class="ayuda">El correo no se puede cambiar.</p>
+
+      <hr class="separador" />
+
+      <label class="campo">
+        <span class="campo__etiqueta"><app-icono nombre="candado" /> Contraseña actual</span>
+        <span class="campo__entrada campo__entrada--con-boton">
+          <input
+            [type]="mostrarActual() ? 'text' : 'password'"
+            formControlName="contrasenaActual"
+            placeholder="Necesaria para guardar cualquier cambio"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            class="ojo"
+            (click)="mostrarActual.set(!mostrarActual())"
+            [attr.aria-label]="mostrarActual() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            <app-icono [nombre]="mostrarActual() ? 'ojo-cerrado' : 'ojo'" />
+          </button>
+        </span>
+      </label>
+      @if (invalido('contrasenaActual')) {
+        <span class="formulario__error">Escribe tu contraseña actual para guardar.</span>
+      }
+
+      <label class="campo">
+        <span class="campo__etiqueta"><app-icono nombre="candado" /> Contraseña nueva (opcional)</span>
+        <span class="campo__entrada campo__entrada--con-boton">
+          <input
+            [type]="mostrarNueva() ? 'text' : 'password'"
+            formControlName="contrasenaNueva"
+            placeholder="Déjalo vacío para no cambiarla"
+            autocomplete="new-password"
+          />
+          <button
+            type="button"
+            class="ojo"
+            (click)="mostrarNueva.set(!mostrarNueva())"
+            [attr.aria-label]="mostrarNueva() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            <app-icono [nombre]="mostrarNueva() ? 'ojo-cerrado' : 'ojo'" />
+          </button>
+        </span>
+      </label>
+      @if (invalido('contrasenaNueva')) {
+        <span class="formulario__error">La contraseña nueva debe tener al menos 4 caracteres.</span>
+      }
+
+      @if (error(); as mensaje) {
+        <p class="mensaje-estado mensaje-estado--error">{{ mensaje }}</p>
+      }
+      @if (exito()) {
+        <p class="exito">Los cambios se guardaron correctamente.</p>
+      }
+
+      <button type="submit" class="enviar" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando…' : 'Guardar cambios' }}
+      </button>
+    </form>
+  </div>
+</section>

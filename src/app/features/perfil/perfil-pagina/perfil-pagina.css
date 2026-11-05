@@ -1,0 +1,131 @@
+.tarjeta {
+  width: min(480px, 100%);
+  margin: 0 auto var(--espacio-grande);
+  padding: var(--espacio-medio);
+  background: var(--blanco);
+  border: 1px solid var(--crema-borde);
+  border-radius: var(--radio-tarjeta);
+}
+
+.tarjeta__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Una franja compacta por campo: el icono va junto a la etiqueta y la
+   entrada es una sola línea inferior, no una caja con borde completo. */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.campo__etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.campo__etiqueta app-icono {
+  color: var(--rojo-principal);
+}
+
+.campo__entrada {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 2px solid var(--crema-borde);
+  background: transparent;
+  color: var(--gris-texto);
+  font: inherit;
+  transition: border-color 0.15s;
+}
+
+.campo__entrada:focus,
+.campo__entrada:focus-within {
+  outline: none;
+  border-color: var(--rojo-principal);
+}
+
+/* El correo se ve apagado a propósito: no es editable. */
+.campo__entrada--apagada {
+  color: var(--gris-placeholder);
+  cursor: not-allowed;
+}
+
+.campo__entrada--con-boton input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.campo__entrada--con-boton input:focus {
+  outline: none;
+}
+
+.campo__entrada input::placeholder {
+  color: var(--gris-placeholder);
+  font-size: 13px;
+}
+
+.ojo {
+  display: flex;
+  padding: 0 0 0 8px;
+  border: 0;
+  background: transparent;
+  color: var(--gris-placeholder);
+}
+
+.ojo:hover {
+  color: var(--rojo-principal);
+}
+
+.ayuda {
+  margin: 0;
+  font-size: 12px;
+  color: var(--gris-placeholder);
+}
+
+.separador {
+  margin: 4px 0;
+  border: 0;
+  border-top: 1px solid var(--crema-borde);
+}
+
+.exito {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #2f7a3d;
+}
+
+.enviar {
+  margin-top: 4px;
+  padding: 13px 0;
+  border: 0;
+  border-radius: var(--radio-boton);
+  background: var(--rojo-principal);
+  color: var(--blanco);
+  font-weight: 700;
+  font-size: 15px;
+  transition: background 0.15s;
+}
+
+.enviar:hover:not(:disabled) {
+  background: var(--rojo-oscuro);
+}
+
+.enviar:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
