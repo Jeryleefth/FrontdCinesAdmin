@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
-// Componente raíz: el equivalente de App.jsx en React.
-// Por ahora solo muestra un título; en el commit 3 le agregamos el router.
+// Componente raíz: solo tiene el <router-outlet />, el hueco donde Angular
+// dibuja la pantalla que corresponde a la URL (como <Outlet /> en React Router).
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
