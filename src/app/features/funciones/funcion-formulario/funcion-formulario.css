@@ -1,0 +1,9 @@
+/* El formato no se escribe: se muestra como texto, calculado a partir de la sala. */
+.formato {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--crema-borde);
+  border-radius: var(--radio-boton);
+  background: var(--blanco);
+  font-weight: 700;
+}

@@ -1,0 +1,112 @@
+<form class="formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="peliculaId">Película</label>
+      <select id="peliculaId" formControlName="peliculaId">
+        <option value="" disabled>Selecciona una película</option>
+        @for (pelicula of peliculas(); track pelicula.id) {
+          <option [value]="pelicula.id">{{ pelicula.titulo }}</option>
+        }
+      </select>
+      @if (invalido('peliculaId')) {
+        <span class="formulario__error">Selecciona una película.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="tipoFuncion">Tipo</label>
+      <select id="tipoFuncion" formControlName="tipoFuncion">
+        @for (tipo of tiposFuncion; track tipo) {
+          <option [value]="tipo">{{ tipo }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="cineId">Cine</label>
+      <select id="cineId" formControlName="cineId">
+        <option value="" disabled>Selecciona un cine</option>
+        @for (cine of cines(); track cine.id) {
+          <option [value]="cine.id">{{ cine.nombre }}</option>
+        }
+      </select>
+      @if (invalido('cineId')) {
+        <span class="formulario__error">Selecciona un cine.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="salaId">Sala</label>
+      <!-- Se habilita/deshabilita desde la clase (ver sincronizarSala en el .ts). -->
+      <select id="salaId" formControlName="salaId">
+        <option value="" disabled>
+          {{ formulario.controls.cineId.value ? 'Selecciona una sala' : 'Primero elige un cine' }}
+        </option>
+        @for (sala of salasDisponibles(); track sala.id) {
+          <option [value]="sala.id">{{ sala.nombre }} · {{ sala.tipo }}</option>
+        }
+      </select>
+      @if (invalido('salaId')) {
+        <span class="formulario__error">Selecciona una sala.</span>
+      }
+    </div>
+  </div>
+
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="fecha">Fecha</label>
+      <input id="fecha" type="date" formControlName="fecha" />
+      @if (invalido('fecha')) {
+        <span class="formulario__error">La fecha es obligatoria.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="horaInicio">Hora de inicio</label>
+      <input id="horaInicio" type="time" formControlName="horaInicio" />
+      @if (invalido('horaInicio')) {
+        <span class="formulario__error">La hora de inicio es obligatoria.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="horaFin">Hora de fin</label>
+      <input id="horaFin" type="time" formControlName="horaFin" readonly />
+      @if (invalido('horaFin')) {
+        <span class="formulario__error">No se pudo calcular: la función debe terminar el mismo día.</span>
+      } @else if (peliculaSeleccionada(); as pelicula) {
+        <span class="formulario__ayuda">
+          Incluye {{ pelicula.duracion }} min de película + {{ minutosPrevios }} min de anuncios y tráilers.
+        </span>
+      } @else {
+        <span class="formulario__ayuda">Elige una película y una hora de inicio para calcularla.</span>
+      }
+    </div>
+  </div>
+
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="precio">Precio (COP)</label>
+      <input id="precio" type="number" min="1" step="500" formControlName="precio" />
+      @if (invalido('precio')) {
+        <span class="formulario__error">El precio debe ser mayor que cero.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <span class="formulario__etiqueta">Formato</span>
+      <!-- El formato no se escribe: se muestra, ya calculado a partir de la sala. -->
+      <p class="formato">{{ formulario.controls.formato.value || 'Se completa al elegir la sala' }}</p>
+    </div>
+  </div>
+
+  @if (error(); as mensaje) {
+    <p class="mensaje-estado mensaje-estado--error">{{ mensaje }}</p>
+  }
+
+  <div class="formulario__acciones">
+    <button type="button" class="boton boton--secundario" [disabled]="guardando()" (click)="cancelar.emit()">
+      Cancelar
+    </button>
+    <button type="submit" class="boton boton--principal" [disabled]="guardando()">
+      {{ guardando() ? 'Guardando…' : 'Guardar' }}
+    </button>
+  </div>
+</form>

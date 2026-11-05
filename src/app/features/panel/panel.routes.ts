@@ -18,6 +18,11 @@ export const PANEL_RUTAS: Routes = [
         path: 'cines',
         loadComponent: () => import('../cines/cines-pagina/cines-pagina').then((m) => m.CinesPagina),
       },
+      {
+        path: 'funciones',
+        loadComponent: () =>
+          import('../funciones/funciones-pagina/funciones-pagina').then((m) => m.FuncionesPagina),
+      },
     ],
   },
 ];

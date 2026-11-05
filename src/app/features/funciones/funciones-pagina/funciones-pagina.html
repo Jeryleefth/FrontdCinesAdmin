@@ -1,0 +1,45 @@
+<section>
+  <app-encabezado-seccion titulo="Funciones">
+    @if (!formulario()) {
+      <button
+        type="button"
+        class="boton boton--principal"
+        [disabled]="cargando() || faltanDatos()"
+        (click)="abrirFormulario('nueva')"
+      >
+        + Agregar función
+      </button>
+    }
+  </app-encabezado-seccion>
+
+  @if (!cargando() && !error() && faltanDatos() && !formulario()) {
+    <p class="mensaje-estado">
+      Primero registra al menos una película y un cine con salas — una función necesita ambos.
+    </p>
+  }
+
+  @if (formulario(); as actual) {
+    <app-funcion-formulario
+      [funcionInicial]="actual === 'nueva' ? null : actual"
+      [peliculas]="peliculas()"
+      [cines]="cines()"
+      [guardando]="guardando()"
+      [error]="errorGuardado()"
+      (guardar)="guardar($event)"
+      (cancelar)="cerrarFormulario()"
+    />
+  }
+
+  @if (cargando()) {
+    <app-cargando texto="Cargando funciones…" />
+  } @else if (error()) {
+    <p class="mensaje-estado mensaje-estado--error">{{ error() }}</p>
+  } @else {
+    <app-funciones-tabla
+      [funciones]="funciones()"
+      [peliculasPorId]="peliculasPorId()"
+      (editar)="abrirFormulario($event)"
+      (eliminar)="eliminar($event)"
+    />
+  }
+</section>

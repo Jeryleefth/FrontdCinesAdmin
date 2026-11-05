@@ -1,0 +1,45 @@
+@if (funciones().length === 0) {
+  <p class="mensaje-estado">Todavía no hay funciones programadas.</p>
+} @else {
+  <div class="tabla-envoltorio">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Película</th>
+          <th>Cine</th>
+          <th>Sala</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Tipo</th>
+          <th>Precio</th>
+          <th aria-label="Acciones"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (funcion of funciones(); track funcion.id) {
+          <tr>
+            <td>{{ peliculasPorId().get(funcion.peliculaId)?.titulo ?? '—' }}</td>
+            <td>{{ funcion.cine.nombre }}</td>
+            <td>{{ funcion.sala.nombre }} · {{ funcion.formato }}</td>
+            <td>{{ funcion.fecha | fechaCorta }}</td>
+            <td>{{ funcion.horaInicio }} – {{ funcion.horaFin }}</td>
+            <td>{{ funcion.tipoFuncion }}</td>
+            <td>{{ funcion.precio | precioCop }}</td>
+            <td class="tabla__acciones">
+              @if (confirmandoId() === funcion.id) {
+                <span class="tabla__pregunta">¿Cancelar?</span>
+                <button type="button" class="boton boton--peligro" (click)="confirmarEliminar(funcion.id)">Sí</button>
+                <button type="button" class="boton boton--secundario" (click)="confirmandoId.set(null)">No</button>
+              } @else {
+                <button type="button" class="boton boton--secundario" (click)="editar.emit(funcion)">Editar</button>
+                <button type="button" class="boton boton--peligro" (click)="confirmandoId.set(funcion.id)">
+                  Eliminar
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
