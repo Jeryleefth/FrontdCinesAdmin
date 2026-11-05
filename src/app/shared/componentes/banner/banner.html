@@ -1,0 +1,10 @@
+<section class="banner" [class.banner--con-imagen]="hayImagen()" [attr.aria-label]="hayImagen() ? titulo() : null">
+  @if (hayImagen()) {
+    <img class="banner__imagen" [src]="imagen()" alt="" aria-hidden="true" (error)="alFallarImagen()" />
+  } @else {
+    <h1 class="banner__titulo">{{ titulo() }}</h1>
+    @if (subtitulo()) {
+      <p class="banner__subtitulo">{{ subtitulo() }}</p>
+    }
+  }
+</section>

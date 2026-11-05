@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
+import { Panel } from './panel';
 
-// TEMPORAL: en el commit 4 este archivo se reemplaza por el panel real.
-// Sirve para comprobar que, al iniciar sesión, el login lleva a /admin.
-@Component({
-  template: '<p class="mensaje-estado">Sesión iniciada. El panel se construye en el siguiente commit.</p>',
-})
-class PanelTemporal {}
-
-export const PANEL_RUTAS: Routes = [{ path: '', component: PanelTemporal }];
+// RUTAS HIJAS del panel. `Panel` es el marco (barra, banner, pestañas) y cada
+// pestaña es una ruta hija que se dibuja dentro de su <router-outlet />.
+// En los siguientes commits vamos agregando una ruta por pestaña.
+export const PANEL_RUTAS: Routes = [
+  {
+    path: '',
+    component: Panel,
+    children: [],
+  },
+];

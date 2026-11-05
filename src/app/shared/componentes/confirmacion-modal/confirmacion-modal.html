@@ -1,0 +1,23 @@
+<div class="modal-fondo" (click)="cancelar.emit()">
+  <div
+    class="confirmacion-modal"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="confirmacion-titulo"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 id="confirmacion-titulo" class="confirmacion-modal__titulo">{{ titulo() }}</h2>
+    @if (mensaje()) {
+      <p class="confirmacion-modal__mensaje">{{ mensaje() }}</p>
+    }
+
+    <div class="confirmacion-modal__pie">
+      <button type="button" class="boton boton--secundario" (click)="cancelar.emit()">
+        {{ textoCancelar() }}
+      </button>
+      <button type="button" class="boton boton--principal" (click)="confirmar.emit()">
+        {{ textoConfirmar() }}
+      </button>
+    </div>
+  </div>
+</div>

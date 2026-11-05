@@ -1,0 +1,46 @@
+<header class="navbar">
+  <div class="navbar__contenido">
+    <a class="navbar__marca" routerLink="/admin" aria-label="CineMatch, panel de administración">
+      <span class="navbar__logo" aria-hidden="true">CM</span>
+      <span>
+        <span class="navbar__nombre">CineMatch</span>
+        <span class="navbar__lema">Panel de administración</span>
+      </span>
+    </a>
+
+    <div class="navbar__usuario">
+      <span class="navbar__saludo">Hola, {{ auth.sesion()?.nombre }}</span>
+      <button type="button" class="navbar__salir" (click)="confirmandoSalida.set(true)">Cerrar sesión</button>
+    </div>
+  </div>
+</header>
+
+<app-banner
+  titulo="Panel de administración"
+  subtitulo="Cines, películas y funciones"
+  imagen="/banners/encabezadoAdmin.png"
+/>
+
+<div class="contenedor">
+  <!-- routerLink lleva a /admin/<ruta>; routerLinkActive pone la clase
+       "pestana--activa" en la pestaña de la ruta actual. -->
+  <nav class="pestanas" aria-label="Secciones del panel">
+    @for (pestana of pestanas; track pestana.ruta) {
+      <a class="pestana" [routerLink]="pestana.ruta" routerLinkActive="pestana--activa">
+        {{ pestana.texto }}
+      </a>
+    }
+  </nav>
+
+  <router-outlet />
+</div>
+
+@if (confirmandoSalida()) {
+  <app-confirmacion-modal
+    titulo="Cerrar sesión"
+    mensaje="¿Seguro que quieres cerrar sesión?"
+    textoConfirmar="Cerrar sesión"
+    (confirmar)="salir()"
+    (cancelar)="confirmandoSalida.set(false)"
+  />
+}
