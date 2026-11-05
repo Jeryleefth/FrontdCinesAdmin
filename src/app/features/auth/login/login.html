@@ -1,0 +1,48 @@
+<div class="acceso-pagina">
+  <div class="tarjeta">
+    <div class="tarjeta__icono"><app-icono nombre="candado" /></div>
+    <h1 class="tarjeta__titulo">Panel de administración</h1>
+    <p class="tarjeta__subtitulo">Ingresa con tu cuenta de administrador de CineMatch.</p>
+
+    <!-- [formGroup] conecta esta etiqueta con el formulario de la clase;
+         (ngSubmit) llama al método `enviar()` al pulsar el botón. -->
+    <form class="tarjeta__formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+      <label class="campo">
+        <app-icono class="campo__icono" nombre="correo" />
+        <input type="email" formControlName="correo" placeholder="Correo" autocomplete="username" />
+      </label>
+      @if (invalido('correo')) {
+        <p class="campo__error">Escribe un correo válido.</p>
+      }
+
+      <label class="campo">
+        <app-icono class="campo__icono" nombre="candado" />
+        <input
+          [type]="mostrarContrasena() ? 'text' : 'password'"
+          formControlName="contrasena"
+          placeholder="Contraseña"
+          autocomplete="current-password"
+        />
+        <button
+          type="button"
+          class="campo__ojo"
+          (click)="mostrarContrasena.set(!mostrarContrasena())"
+          [attr.aria-label]="mostrarContrasena() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+        >
+          <app-icono [nombre]="mostrarContrasena() ? 'ojo-cerrado' : 'ojo'" />
+        </button>
+      </label>
+      @if (invalido('contrasena')) {
+        <p class="campo__error">Escribe tu contraseña.</p>
+      }
+
+      @if (error(); as mensaje) {
+        <p class="mensaje-estado mensaje-estado--error">{{ mensaje }}</p>
+      }
+
+      <button type="submit" class="enviar" [disabled]="enviando()">
+        {{ enviando() ? 'Un momento…' : 'Ingresar' }}
+      </button>
+    </form>
+  </div>
+</div>
