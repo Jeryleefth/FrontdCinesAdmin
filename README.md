@@ -1,59 +1,73 @@
-# AdminTemp
+# CineMatch — Panel de administración (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.6.
+Frontend del **módulo administrativo** de CineMatch, *"Encuentra tu función ideal"*: gestión de películas, cines (con sus salas) y funciones de los cines de Ibagué (Cinemark, Cine Colombia y Royal Films).
 
-## Development server
+Es una aplicación independiente del portal de clientes (React). Consume la API REST del backend en Spring Boot.
 
-To start a local development server, run:
+## Arquitectura
+
+| Componente | Tecnología | Puerto |
+| --- | --- | --- |
+| **Panel de administración (este repo)** | Angular | `4200` |
+| Portal de clientes | React + Vite | `5173` |
+| Backend principal | Java + Spring Boot | `8081` |
+| Microservicio de pagos | Python + Django | `8000` |
+
+## Requisitos
+
+* Node.js LTS (22 o 24)
+* Angular CLI: `npm install -g @angular/cli`
+* Backend Spring Boot corriendo en `http://127.0.0.1:8081`, con CORS habilitado para `http://localhost:4200`
+
+## Ejecutar
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abre `http://localhost:4200`. La URL del backend se configura en `src/environments/environment.development.ts` (desarrollo) y `src/environments/environment.ts` (producción).
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Otros comandos:
 
 ```bash
-ng generate component component-name
+ng test         # pruebas unitarias
+ng build        # compilación de producción en dist/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Funcionalidades
 
-```bash
-ng generate --help
+* **Inicio de sesión** de administrador, con rutas del panel protegidas por un *guard*.
+* **Películas:** listar, crear, editar y eliminar.
+* **Cines:** listar, crear, editar y eliminar, con administración de sus salas (2D, 3D, VIP).
+* **Funciones:** listar, crear, editar y cancelar. El formato sale de la sala elegida y la hora de fin se calcula (inicio + duración de la película + 15 min de anuncios).
+* **Mi perfil:** actualizar el nombre y la contraseña.
+
+## Endpoints que consume
+
+| Módulo | Método | Endpoint |
+| --- | --- | --- |
+| Auth | `POST` | `/api/auth/login` |
+| Auth | `PUT` | `/api/auth/perfil` |
+| Películas | `GET` `POST` | `/api/peliculas` |
+| Películas | `PUT` `DELETE` | `/api/peliculas/{id}` |
+| Cines | `GET` `POST` | `/api/cines` |
+| Cines | `PUT` `DELETE` | `/api/cines/{id}` |
+| Funciones | `GET` `POST` | `/api/funciones` |
+| Funciones | `PUT` `DELETE` | `/api/funciones/{id}` |
+
+## Estructura
+
+```text
+src/app/
+├── core/            Lo que usa toda la app, sin pantalla propia
+│   ├── modelos/         Interfaces TypeScript (contrato con la API)
+│   ├── servicios/       Acceso a la API y sesión
+│   ├── interceptores/   Token y manejo de errores HTTP
+│   └── guards/          Protección de rutas
+├── shared/          Piezas reutilizables (banner, spinner, modal, pipes)
+└── features/        Una carpeta por sección del panel
+    ├── auth/  panel/  peliculas/  cines/  funciones/  perfil/
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Cada *feature* se carga de forma diferida (*lazy loading*) y no depende de las demás, lo que facilita mantener el panel como una aplicación separada del portal de clientes.
