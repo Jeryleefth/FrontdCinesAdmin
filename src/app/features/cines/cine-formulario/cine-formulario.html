@@ -1,0 +1,85 @@
+<form class="formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="cadena">Cadena</label>
+      <select id="cadena" formControlName="cadena">
+        <option value="" disabled>Selecciona una cadena</option>
+        @for (cadena of cadenas; track cadena) {
+          <option [value]="cadena">{{ cadena }}</option>
+        }
+      </select>
+      @if (invalido('cadena')) {
+        <span class="formulario__error">Selecciona una cadena.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="nombre">Nombre del cine</label>
+      <input id="nombre" formControlName="nombre" />
+      @if (invalido('nombre')) {
+        <span class="formulario__error">El nombre es obligatorio.</span>
+      }
+    </div>
+  </div>
+
+  <div class="formulario__fila">
+    <div class="formulario__campo">
+      <label for="direccion">Dirección</label>
+      <input id="direccion" placeholder="C.C. Multicentro" formControlName="direccion" />
+      @if (invalido('direccion')) {
+        <span class="formulario__error">La dirección es obligatoria.</span>
+      }
+    </div>
+    <div class="formulario__campo">
+      <label for="ciudad">Ciudad</label>
+      <input id="ciudad" formControlName="ciudad" />
+      @if (invalido('ciudad')) {
+        <span class="formulario__error">La ciudad es obligatoria.</span>
+      }
+    </div>
+  </div>
+
+  <!-- formArrayName conecta este bloque con la lista `salas` del formulario;
+       cada fila usa [formGroupName]="i" para apuntar a la sala número i. -->
+  <div class="salas" formArrayName="salas">
+    <div class="salas__encabezado">
+      <h3>Salas</h3>
+      <button type="button" class="boton boton--secundario" (click)="agregarSala()">+ Agregar sala</button>
+    </div>
+
+    @if (salas.length === 0) {
+      <p class="mensaje-estado" [class.mensaje-estado--error]="intentoEnvio()">
+        {{
+          intentoEnvio()
+            ? 'Agrega al menos una sala antes de guardar el cine.'
+            : 'Este cine todavía no tiene salas registradas.'
+        }}
+      </p>
+    }
+
+    @for (sala of salas.controls; track sala; let i = $index) {
+      <div class="sala" [formGroupName]="i">
+        <input class="sala__nombre" placeholder="Nombre (Sala 1, Sala VIP…)" formControlName="nombre" />
+        <input class="sala__capacidad" type="number" min="1" placeholder="Capacidad" formControlName="capacidad" />
+        <select class="sala__tipo" formControlName="tipo">
+          @for (tipo of tiposSala; track tipo) {
+            <option [value]="tipo">{{ tipo }}</option>
+          }
+        </select>
+        <button type="button" class="boton boton--peligro" (click)="quitarSala(i)">Quitar</button>
+      </div>
+    }
+  </div>
+
+  @if (error(); as mensaje) {
+    <p class="mensaje-estado mensaje-estado--error">{{ mensaje }}</p>
+  }
+
+  <div class="formulario__acciones">
+    <button type="button" class="boton boton--secundario" [disabled]="guardando()" (click)="cancelar.emit()">
+      Cancelar
+    </button>
+    <button type="submit" class="boton boton--principal" [disabled]="guardando()">
+      {{ guardando() ? 'Guardando…' : 'Guardar' }}
+    </button>
+  </div>
+</form>

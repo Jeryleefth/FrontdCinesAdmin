@@ -1,0 +1,41 @@
+@if (cines().length === 0) {
+  <p class="mensaje-estado">Todavía no hay cines registrados.</p>
+} @else {
+  <div class="tabla-envoltorio">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Cadena</th>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Ciudad</th>
+          <th>Salas</th>
+          <th aria-label="Acciones"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cine of cines(); track cine.id) {
+          <tr>
+            <td>{{ cine.cadena }}</td>
+            <td>{{ cine.nombre }}</td>
+            <td>{{ cine.direccion }}</td>
+            <td>{{ cine.ciudad }}</td>
+            <td>{{ cine.salas.length }}</td>
+            <td class="tabla__acciones">
+              @if (confirmandoId() === cine.id) {
+                <span class="tabla__pregunta">¿Eliminar?</span>
+                <button type="button" class="boton boton--peligro" (click)="confirmarEliminar(cine.id)">Sí</button>
+                <button type="button" class="boton boton--secundario" (click)="confirmandoId.set(null)">No</button>
+              } @else {
+                <button type="button" class="boton boton--secundario" (click)="editar.emit(cine)">Editar</button>
+                <button type="button" class="boton boton--peligro" (click)="confirmandoId.set(cine.id)">
+                  Eliminar
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

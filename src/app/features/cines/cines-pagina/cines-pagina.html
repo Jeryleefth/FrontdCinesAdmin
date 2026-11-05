@@ -1,0 +1,25 @@
+<section>
+  <app-encabezado-seccion titulo="Cines">
+    @if (!formulario()) {
+      <button type="button" class="boton boton--principal" (click)="abrirFormulario('nueva')">+ Agregar cine</button>
+    }
+  </app-encabezado-seccion>
+
+  @if (formulario(); as actual) {
+    <app-cine-formulario
+      [cineInicial]="actual === 'nueva' ? null : actual"
+      [guardando]="guardando()"
+      [error]="errorGuardado()"
+      (guardar)="guardar($event)"
+      (cancelar)="cerrarFormulario()"
+    />
+  }
+
+  @if (cargando()) {
+    <app-cargando texto="Cargando cines…" />
+  } @else if (error()) {
+    <p class="mensaje-estado mensaje-estado--error">{{ error() }}</p>
+  } @else {
+    <app-cines-tabla [cines]="cines()" (editar)="abrirFormulario($event)" (eliminar)="eliminar($event)" />
+  }
+</section>

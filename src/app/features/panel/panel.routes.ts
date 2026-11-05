@@ -14,6 +14,10 @@ export const PANEL_RUTAS: Routes = [
         loadComponent: () =>
           import('../peliculas/peliculas-pagina/peliculas-pagina').then((m) => m.PeliculasPagina),
       },
+      {
+        path: 'cines',
+        loadComponent: () => import('../cines/cines-pagina/cines-pagina').then((m) => m.CinesPagina),
+      },
     ],
   },
 ];

@@ -1,0 +1,59 @@
+/* Solo los estilos propios de la lista de salas; el resto es el .formulario global. */
+
+.salas {
+  padding-top: 6px;
+  border-top: 1px solid var(--crema-borde);
+}
+
+.salas__encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.salas__encabezado h3 {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--rojo-principal);
+}
+
+.sala {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sala input,
+.sala select {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* Angular marca los campos con las clases ng-invalid / ng-touched solo. */
+.sala input.ng-invalid.ng-touched {
+  border-color: var(--rojo-principal);
+}
+
+.sala__nombre {
+  flex: 2 1 180px;
+}
+
+.sala__capacidad {
+  flex: 1 1 100px;
+}
+
+.sala__tipo {
+  flex: 0 1 90px;
+  padding-right: 28px;
+}
+
+.sala .boton {
+  padding: 8px 14px;
+  font-size: 13px;
+}
