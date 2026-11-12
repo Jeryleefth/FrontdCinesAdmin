@@ -18,8 +18,8 @@ export class PerfilPagina {
     nombre: [this.auth.sesion()?.nombre ?? '', Validators.required],
     // La contraseña ACTUAL se pide en cada envío: es lo que confirma que eres tú.
     contrasenaActual: ['', Validators.required],
-    // La nueva es opcional; si la escribes, mínimo 4 caracteres.
-    contrasenaNueva: ['', Validators.minLength(4)],
+    // La nueva es opcional; el backend exige al menos 6 caracteres.
+    contrasenaNueva: ['', Validators.minLength(6)],
   });
 
   protected readonly mostrarActual = signal(false);

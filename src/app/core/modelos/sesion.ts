@@ -3,7 +3,6 @@ export interface Sesion {
   token: string;
   nombre: string;
   correo: string;
-  telefono?: string;
   rol: 'ADMINISTRADOR' | 'CLIENTE';
 }
 
