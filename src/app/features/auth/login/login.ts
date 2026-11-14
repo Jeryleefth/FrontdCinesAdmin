@@ -37,6 +37,14 @@ export class Login {
   // servidor de desarrollo de React se expone en el puerto 5173.
   protected readonly portalClientesUrl = `${window.location.protocol}//${window.location.hostname}:5173`;
 
+  constructor() {
+    // La sesión puede venir del portal de clientes. AuthServicio la consume y
+    // la guarda antes de crear este componente; no se debe pedir el login otra vez.
+    if (this.auth.estaAutenticado()) {
+      this.router.navigateByUrl(this.destino());
+    }
+  }
+
   /** ¿Mostramos el mensaje de error de este campo? (inválido y ya tocado) */
   protected invalido(campo: 'correo' | 'contrasena'): boolean {
     const control = this.formulario.controls[campo];
