@@ -10,6 +10,7 @@
 
     <div class="navbar__usuario">
       <span class="navbar__saludo">Hola, {{ auth.sesion()?.nombre }}</span>
+      <a class="navbar__clientes" [href]="portalClientesUrl">Portal clientes</a>
       <button type="button" class="navbar__salir" (click)="confirmandoSalida.set(true)">Cerrar sesión</button>
     </div>
   </div>

@@ -81,6 +81,19 @@
   transition: background 0.15s;
 }
 
+.navbar__clientes {
+  padding: 8px 12px;
+  border-radius: var(--radio-boton);
+  color: var(--blanco);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.navbar__clientes:hover {
+  background: var(--rojo-oscuro);
+}
+
 .navbar__salir:hover {
   background: var(--rojo-oscuro);
 }

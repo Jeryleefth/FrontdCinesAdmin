@@ -17,6 +17,7 @@ import { ConfirmacionModal } from '../../shared/componentes/confirmacion-modal/c
 })
 export class Panel {
   protected readonly auth = inject(AuthServicio);
+  protected readonly portalClientesUrl = `${window.location.protocol}//${window.location.hostname}:5173`;
   private readonly router = inject(Router);
 
   protected readonly pestanas = [

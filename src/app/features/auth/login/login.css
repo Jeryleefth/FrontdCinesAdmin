@@ -56,6 +56,19 @@
   line-height: 1.45;
 }
 
+.tarjeta__enlace-clientes {
+  display: inline-block;
+  margin: -4px 0 var(--espacio-medio);
+  color: var(--rojo-principal);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tarjeta__enlace-clientes:hover {
+  text-decoration: underline;
+}
+
 .tarjeta__formulario {
   display: flex;
   flex-direction: column;

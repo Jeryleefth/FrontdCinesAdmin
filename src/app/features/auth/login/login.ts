@@ -33,6 +33,9 @@ export class Login {
   protected readonly mostrarContrasena = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly enviando = signal(false);
+  // El portal de clientes usa el mismo equipo/host que este panel, pero el
+  // servidor de desarrollo de React se expone en el puerto 5173.
+  protected readonly portalClientesUrl = `${window.location.protocol}//${window.location.hostname}:5173`;
 
   /** ¿Mostramos el mensaje de error de este campo? (inválido y ya tocado) */
   protected invalido(campo: 'correo' | 'contrasena'): boolean {
