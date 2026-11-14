@@ -1,5 +1,5 @@
-// Configuración para DESARROLLO (cuando se corre `ng serve`).
-// Spring Boot corre en el puerto 8081.
+// Usa el mismo host desde donde se abre Angular. Así el panel funciona desde
+// el equipo local o desde otro dispositivo dentro de la red privada.
 export const environment = {
-  urlApi: 'http://127.0.0.1:8081/api',
+  urlApi: `http://${window.location.hostname}:8081/api`,
 };
