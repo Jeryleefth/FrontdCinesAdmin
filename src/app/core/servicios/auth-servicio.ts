@@ -19,6 +19,26 @@ function leerSesionGuardada(): Sesion | null {
   }
 }
 
+/** Recibe una sesión entregada por el portal de clientes y borra el puente. */
+function leerSesionTransferida(): Sesion | null {
+  try {
+    const transferencia = JSON.parse(window.name || '{}') as { tipo?: string; sesion?: Sesion };
+    window.name = '';
+    return transferencia.tipo === 'cinematch-admin-session' && transferencia.sesion?.rol === 'ADMINISTRADOR'
+      ? transferencia.sesion
+      : null;
+  } catch {
+    window.name = '';
+    return null;
+  }
+}
+
+function leerSesionInicial(): Sesion | null {
+  // Siempre consume window.name, incluso cuando ya había una sesión guardada,
+  // para que un puente anterior no pueda revivir una sesión tras cerrar sesión.
+  return leerSesionTransferida() ?? leerSesionGuardada();
+}
+
 // En React, "quién está logueado" vivía en un Context + useState. En Angular
 // vive en un SERVICIO con una SIGNAL: cualquier componente que lea
 // `auth.sesion()` se actualiza solo cuando la sesión cambia.
@@ -27,7 +47,12 @@ export class AuthServicio {
   private readonly http = inject(HttpClient);
   private readonly url = `${environment.urlApi}/auth`;
 
-  private readonly _sesion = signal<Sesion | null>(leerSesionGuardada());
+  private readonly _sesion = signal<Sesion | null>(leerSesionInicial());
+
+  constructor() {
+    const sesion = this._sesion();
+    if (sesion) this.guardar(sesion);
+  }
 
   /** La sesión actual (solo lectura desde fuera del servicio). */
   readonly sesion = this._sesion.asReadonly();
