@@ -8,7 +8,7 @@ Es una aplicación independiente del portal de clientes (React). Consume la API 
 
 | Componente | Tecnología | Puerto |
 | --- | --- | --- |
-| **Panel de administración (este repo)** | Angular | `4200` |
+| Panel de administración | Angular | `4200` |
 | Portal de clientes | React + Vite | `5173` |
 | Backend principal | Java + Spring Boot | `8081` |
 | Microservicio de pagos | Python + Django | `8000` |
@@ -71,3 +71,4 @@ src/app/
 ```
 
 Cada *feature* se carga de forma diferida (*lazy loading*) y no depende de las demás, lo que facilita mantener el panel como una aplicación separada del portal de clientes.
+.
